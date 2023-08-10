@@ -1,0 +1,160 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@font-face {
+  font-family: "action_manbold";
+  src: url("Action_Man_Bold-webfont.eot");
+  src: url("Action_Man_Bold-webfont.eot?#iefix") format("embedded-opentype"),
+    url("Action_Man_Bold-webfont.woff2") format("woff2"),
+    url("Action_Man_Bold-webfont.woff") format("woff"),
+    url("Action_Man_Bold-webfont.ttf") format("truetype"),
+    url("Action_Man_Bold-webfont.svg#action_manbold") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+:root {
+  --bar-width: 45px;
+  --bar-height: 5px;
+  --bar-gap: 4px;
+  --menu-margin: 3px;
+
+  --sidebar-x-clr: #ffffff;
+  --sidebar-bg-clr: #555b6e;
+  --bg-clr: #333;
+  --accent-clr1: #0e6ffc;
+  --accent-clr2: #f90093;
+  --accent-clr3: #89fc00;
+  --accent-clr4: #ff3d11;
+  --accent-clr5: #54f2f2;
+
+  --animation-timing: 250ms ease-in-out;
+
+  /* this is for calculating the menu height so it transitions into a proportionate 'X' symbol -> this is also trig */
+  --menu-height: calc(var(--bar-height) * 3 + var(--bar-gap) * 2);
+}
+
+/* simple selector: universal
+   pseudo-element selector: after,before */
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.header-container {
+  position: fixed;
+  z-index: 999999;
+}
+
+/* START OF HAMBURGER MENU-TOGGLE */
+.menu-toggle {
+  /* for calculating the lines of the 'X' symbol -> uses the square root of 2 -> using trig */
+  --x-width: calc(var(--menu-height) * 1.41421356237);
+  display: flex;
+  flex-direction: column;
+  gap: var(--bar-gap);
+  width: max-content;
+  position: absolute;
+  top: var(--menu-margin);
+  left: var(--menu-margin);
+  z-index: 999;
+  cursor: pointer;
+}
+
+/* pseudo-class selector: :has(), :checked */
+.menu-toggle:has(input:checked) {
+  --bg-clr: #333;
+}
+
+.menu-toggle::before,
+.menu-toggle::after,
+.menu-toggle input {
+  content: "";
+  width: var(--bar-width);
+  height: var(--bar-height);
+  border-radius: 99999px;
+  transform-origin: left center;
+  transition: opacity var(--animation-timing), width var(--animation-timing),
+    rotate var(--animation-timing), translate var(--animation-timing),
+    background-color var(--animation-timing);
+}
+
+.menu-toggle::before {
+  background-color: var(--accent-clr2);
+}
+.menu-toggle::after {
+  background-color: var(--accent-clr4);
+}
+.menu-toggle input {
+  background-color: var(--accent-clr3);
+}
+
+.menu-toggle:has(input:checked)::before {
+  rotate: 45deg;
+  width: var(--x-width);
+  translate: 0 calc(var(--bar-height) / -2);
+}
+
+.menu-toggle:has(input:checked)::after {
+  rotate: -45deg;
+  width: var(--x-width);
+  translate: 0 calc(var(--bar-height) / 2);
+}
+
+/* combinator selector: descendant selector */
+.menu-toggle input {
+  appearance: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-toggle input:checked {
+  opacity: 0;
+  width: 0;
+}
+/* END OF HAMBURGER BARS TOGGLE */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  transition: translate var(--animation-timing);
+  translate: -100%;
+  padding-top: calc(var(--menu-height) + var(--menu-margin) + 1rem);
+  padding-left: 1em;
+  padding-right: 1em;
+  background-color: var(--bg-clr);
+  color: var(--bg-clr);
+  max-width: 10rem;
+  height: 100vh;
+  opacity: 0.9;
+  overflow: scroll;
+}
+
+.sidebar nav > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.menu-toggle:has(input:checked) + .sidebar {
+  translate: 0;
+}
+
+.link-social-container > ul {
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+  height: auto;
+  padding-top: 2em;
+}
+
+.link-social-container > ul > li {
+  padding: 10%;
+}
